@@ -27,6 +27,7 @@ Frontend: HTML, CSS, JavaScript
 Framework: Tidak ada (pure PHP)
 
 📁 Struktur Proyek
+'''
 /project-root
 │
 ├── db.php               # Koneksi ke database
