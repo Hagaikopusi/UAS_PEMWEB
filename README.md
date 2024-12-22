@@ -27,7 +27,7 @@ Frontend: HTML, CSS, JavaScript
 Framework: Tidak ada (pure PHP)
 
 📁 Struktur Proyek
-'''PHP
+```
 /project-root
 │
 ├── db.php               # Koneksi ke database
@@ -39,6 +39,7 @@ Framework: Tidak ada (pure PHP)
 ├── register.php         # Halaman registrasi pengguna
 ├── logout.php           # Halaman untuk logout pengguna
 └── view_students.php     # Halaman untuk melihat data mahasiswa
+```
 
 📜 Penjelasan Kode
 
