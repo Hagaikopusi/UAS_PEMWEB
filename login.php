@@ -1,28 +1,33 @@
 <?php
-session_start();
-require 'db.php';
+session_start(); // Memulai sesi untuk menyimpan data pengguna
+require 'db.php'; // Mengimpor file koneksi database
 
+// Memeriksa apakah permintaan adalah metode POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = $_POST['username']; // Mengambil username dari form
+    $password = $_POST['password']; // Mengambil password dari form
 
+    // Menyiapkan pernyataan SQL untuk mengambil data pengguna berdasarkan username
     $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt->bind_param("s", $username); // Mengikat parameter untuk mencegah SQL injection
+    $stmt->execute(); // Menjalankan pernyataan
+    $result = $stmt->get_result(); // Mendapatkan hasil dari pernyataan
 
+    // Memeriksa apakah pengguna ditemukan
     if ($result->num_rows > 0) {
-        $user = $result->fetch_assoc();
+        $user = $result->fetch_assoc(); // Mengambil data pengguna
+        // Memverifikasi password
         if (password_verify($password, $user['password'])) {
+            // Jika password benar, simpan data pengguna dalam sesi
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
-            header("Location: dashboard.php");
-            exit;
+            header("Location: dashboard.php"); // Arahkan ke halaman dashboard
+            exit; // Menghentikan eksekusi script
         } else {
-            echo "<script>alert('Password salah.');</script>";
+            echo "<script>alert('Password salah.');</script>"; // Menampilkan pesan jika password salah
         }
     } else {
-        echo "<script>alert('Username tidak ditemukan.');</script>";
+        echo "<script>alert('Username tidak ditemukan.');</script>"; // Menampilkan pesan jika username tidak ditemukan
     }
 }
 ?>
@@ -36,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
+        /* Gaya untuk body dan container */
         body {
             font-family: 'Roboto', sans-serif;
             background-image: url('https://www.itera.ac.id/wp-content/uploads/2020/01/3.jpg');
@@ -55,6 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             width: 100%;
             max-width: 400px;
         }
+        /* Gaya untuk logo */
         .logo {
             display: flex;
             justify-content: center;
@@ -70,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-weight: bold;
             margin-bottom: 1.5rem;
         }
+        /* Gaya untuk input dan button */
         .input-group {
             display: flex;
             align-items: center;
@@ -125,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #3182ce; /* Blue-600 */
             text-decoration: none;
         }
- .footer a:hover {
+        .footer a:hover {
             text-decoration: underline;
         }
         .requirements {
@@ -181,13 +189,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const passwordInput = document.getElementById('password');
             const eyeIcon = document.getElementById('eye-icon');
             if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
+                passwordInput.type = 'text'; // Mengubah tipe input menjadi teks
                 eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye-slash'); // Mengubah ikon mata
             } else {
-                passwordInput.type = 'password';
+                passwordInput.type = 'password'; // Mengubah kembali tipe input menjadi password
                 eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
+                eyeIcon.classList.add('fa-eye'); // Mengubah ikon mata kembali
             }
         }
 
@@ -210,23 +218,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Validasi username
             if (username.length <= 3) {
-                alert("Username harus lebih dari 3 karakter.");
+                alert("Username harus lebih dari 3 karakter."); // Pesan kesalahan untuk username
                 return false;
             }
 
             // Validasi password
-            if (password.length < 6) {
-                alert("Password harus terdiri dari minimal 6 karakter.");
+            if ( password.length < 6) {
+                alert("Password harus terdiri dari minimal 6 karakter."); // Pesan kesalahan untuk password
                 return false;
             }
 
             // Jika semua validasi lulus
-            return true;
+            return true; // Mengizinkan form untuk disubmit
         }
     </script>
 </body>
 </html>
 
 <?php
-$conn->close();
+$conn->close(); // Menutup koneksi database
 ?>
