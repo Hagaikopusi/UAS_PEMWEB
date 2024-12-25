@@ -5,7 +5,7 @@ LINK Akses Website : https://hagaikopusi.xyz/
 ====================================
 Nama : Hagai Kopusi Sinulingga
 NIM  : 122140059
-Kelas: RB
+Kelas: RA
 Matakuliah : Pemrograman Website
 
 📚 README 📚 
